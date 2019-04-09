@@ -1,0 +1,40 @@
+import simplegui,random
+bubble=[]
+count=0
+score=0
+class Bubble:
+    def __init__(self,red,pos):
+        self.red=red
+        self.pos=pos
+    def update(self):
+        self.pos[1]-=1
+    def create(self,canvas):
+        canvas.draw_circle(self.pos,self.red,1,"aqua")
+        
+def genbubble():
+    global count
+    b=Bubble(random.randint(12,20),[random.random()*400,600])
+    bubble.append(b)
+    count+=1
+
+def draw(canvas):
+    canvas.draw_text("Score"+str(score),[50,50],22,"black")
+    canvas.draw_text("Count:"+str(count),[270,50],22,"black")
+    for b in bubble:
+        b.create(canvas)
+        b.update()
+    if random.random()<0.05:
+        genbubble()
+        
+def click(pos1):
+    global score
+    for b in bubble:
+        if pos1[0]<=b.red+b.pos[0] and po[0]>=b.pos[0]-b.red and po[1]<=b.red+b.pos[1] and po[1]>=b.pos[1]-b.red:
+            bubble.remove(b)
+            score+=1
+
+frame=simplegui.create_frame("bubble",400,600)
+frame.set_canvas_background("blue")
+frame.set_draw_handler(draw)
+frame.set_mouseclick_handler(click)
+frame.start()
